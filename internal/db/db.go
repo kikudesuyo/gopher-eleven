@@ -2,12 +2,10 @@ package db
 
 var characters = map[string]map[string]interface{}{
 	"ENDO":   {"name": "円堂", "techniques": []string{"GOD_HAND", "BAKURETSU_PUNCH"}, "tp": 100},
-	"GOENJI": {"name": "豪炎寺", "techniques": []string{"FIRE_TORNADO"}, "tp": 90},
+	"GOENJI": {"name": "豪炎寺", "techniques": []string{"FIRE_TORNADO", "BAKUNETU_STORM"}, "tp": 90},
 	"GENDA":  {"name": "源田", "techniques": []string{"POWER_SHIELD"}, "tp": 80},
 	"SAKUMA": {"name": "佐久間", "techniques": []string{"TWIN_BOOST"}, "tp": 85},
 }
-
-var characterIds = []string{"ENDO", "GOENJI", "GENDA", "SAKUMA"}
 
 var techniques = map[string]map[string]interface{}{
 	"GOD_HAND": {
@@ -27,6 +25,12 @@ var techniques = map[string]map[string]interface{}{
 		"power": 40,
 		"cost":  35,
 		"name":  "ファイヤートルネード",
+	},
+	"BAKUNETU_STORM": {
+		"attr":  "OFFENCE",
+		"power": 45,
+		"cost":  40,
+		"name":  "爆熱ストーム",
 	},
 	"POWER_SHIELD": {
 		"attr":  "DEFENCE",

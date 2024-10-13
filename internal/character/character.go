@@ -1,6 +1,8 @@
 package character
 
 import (
+	"math/rand"
+
 	"github.com/kikudesuyo/gopher-eleven/internal/db"
 )
 
@@ -18,7 +20,8 @@ type Character struct {
 }
 
 func (c *Character) Perform() Technique {
-	idx := 0
+
+	idx := rand.Intn(len(c.Techniques))
 	c.Tp -= c.Techniques[idx].Cost
 	return c.Techniques[idx]
 }

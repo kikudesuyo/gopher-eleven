@@ -1,6 +1,7 @@
 package match
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/kikudesuyo/gopher-eleven/internal/display"
@@ -55,14 +56,15 @@ func (m *Match) Proceed() (display.Display, bool, error) {
 		offenceCharacter.Name + "「" + offenceTechnique.Name + "!!」",
 		defenceCharacter.Name + "「" + defenceTechnique.Name + "!!」",
 	}
-	if offenceTechnique.Power > defenceTechnique.Power {
+	powerDiff := offenceTechnique.Power - defenceTechnique.Power
+	if (powerDiff > 0 && rand.Intn(10) > 3) || (powerDiff < 0 && rand.Intn(10) > 7) {
 		m.turn.offenceTeam.Inc()
-		texts = append(texts, "角間「決まったー! "+offenceCharacter.Name+"のシュートが炸裂!!」")
+		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacter.Name+"のシュートが炸裂!!」")
 	} else {
 		texts = append(texts, "角間「キーパーの"+defenceCharacter.Name+"がしっかりキャッチ!」")
 	}
 	texts = append(texts, "------------------------")
-	isEnd := m.turn.count == 3
+	isEnd := m.turn.count == 4
 	if isEnd {
 		texts = append(texts, "ホイッスル < ピッピーーーー", "角間「ここで前半終了のホイッスルーーー!")
 		scoreDiff := m.playerTeam.Score - m.opponentTeam.Score
@@ -71,7 +73,7 @@ func (m *Match) Proceed() (display.Display, bool, error) {
 		} else if scoreDiff == 0 {
 			texts = append(texts, "\t"+m.playerTeam.Name+" 同点での折り返しです!」")
 		} else {
-			texts = append(texts, "\t"+m.playerTeam.Name+" "+strconv.Itoa(scoreDiff)+"点のビハインドです..!」")
+			texts = append(texts, "\t"+m.playerTeam.Name+" "+strconv.Itoa(-1*scoreDiff)+"点のビハインドです..!」")
 		}
 	}
 	disp := display.NewDisplay(texts...)
