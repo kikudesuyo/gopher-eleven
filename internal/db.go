@@ -1,15 +1,15 @@
 package internal
 
-var Characters = map[string]map[string]interface{}{
-	"ENDO":   {"name": "円堂", "specialTechniques": []string{"GOD_HAND", "BAKURETSU_PUNCH"}, "tp": 100},
-	"GOENJI": {"name": "豪炎寺", "specialTechniques": []string{"FIRE_TORNADO"}, "tp": 90},
-	"GENDA":  {"name": "源田", "specialTechniques": []string{"POWER_SHIELD"}, "tp": 80},
-	"SAKUMA": {"name": "佐久間", "specialTechniques": []string{"TWIN_BOOST"}, "tp": 85},
+var characters = map[string]map[string]interface{}{
+	"ENDO":   {"name": "円堂", "techniques": []string{"GOD_HAND", "BAKURETSU_PUNCH"}, "tp": 100},
+	"GOENJI": {"name": "豪炎寺", "techniques": []string{"FIRE_TORNADO"}, "tp": 90},
+	"GENDA":  {"name": "源田", "techniques": []string{"POWER_SHIELD"}, "tp": 80},
+	"SAKUMA": {"name": "佐久間", "techniques": []string{"TWIN_BOOST"}, "tp": 85},
 }
 
-var CharacterIds = []string{"ENDO", "GOENJI", "GENDA", "SAKUMA"}
+var characterIds = []string{"ENDO", "GOENJI", "GENDA", "SAKUMA"}
 
-var Techniques = map[string]map[string]interface{}{
+var techniques = map[string]map[string]interface{}{
 	"GOD_HAND": {
 		"attr":  "DEFENCE",
 		"power": 30,
@@ -51,9 +51,9 @@ func GetOpponentTeamCharacterIds() []string {
 }
 
 func GetCharacter(id string) map[string]interface{} {
-	return Characters[id]
+	return characters[id]
 }
 
-func GetSpecialTechniques(id string) map[string]interface{} {
-	return Techniques[id]
+func GetTechniques(id string) map[string]interface{} {
+	return techniques[id]
 }
