@@ -8,14 +8,14 @@ import (
 type Team struct {
 	Characters []character.Character
 	Name       string
-	point      int
+	Score      int
 }
 
 func GetPlayerTeam() Team {
 	return Team{
 		Characters: character.GetPlayerTeamCharacters(),
 		Name:       db.GetPlayerTeamName(),
-		point:      0,
+		Score:      0,
 	}
 }
 
@@ -23,6 +23,10 @@ func GetOpponentTeam() Team {
 	return Team{
 		Characters: character.GetOpponentTeamCharacters(),
 		Name:       db.GetOpponentTeamName(),
-		point:      0,
+		Score:      0,
 	}
+}
+
+func (t *Team) Inc() {
+	t.Score++
 }

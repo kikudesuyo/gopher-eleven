@@ -5,10 +5,10 @@ import (
 )
 
 type Technique struct {
-	attr  string
-	cost  int
-	name  string
-	power int
+	Attr  string
+	Cost  int
+	Name  string
+	Power int
 }
 
 type Character struct {
@@ -17,10 +17,10 @@ type Character struct {
 	Tp         int
 }
 
-func (c *Character) Perform() (string, string) {
+func (c *Character) Perform() Technique {
 	idx := 0
-	c.Tp -= c.Techniques[idx].cost
-	return c.Name, c.Techniques[idx].name
+	c.Tp -= c.Techniques[idx].Cost
+	return c.Techniques[idx]
 }
 
 func GetPlayerTeamCharacters() []Character {
@@ -35,10 +35,10 @@ func GetPlayerTeamCharacters() []Character {
 		for idx, id := range ids {
 			t := db.GetTechniques(id)
 			techniques[idx] = Technique{
-				attr:  t["attr"].(string),
-				cost:  t["cost"].(int),
-				name:  t["name"].(string),
-				power: t["power"].(int),
+				Attr:  t["attr"].(string),
+				Cost:  t["cost"].(int),
+				Name:  t["name"].(string),
+				Power: t["power"].(int),
 			}
 		}
 		playerTeamCharacters[idx] = Character{
@@ -60,10 +60,10 @@ func GetOpponentTeamCharacters() []Character {
 		for idx, id := range ids {
 			t := db.GetTechniques(id)
 			techniques[idx] = Technique{
-				attr:  t["attr"].(string),
-				cost:  t["cost"].(int),
-				name:  t["name"].(string),
-				power: t["power"].(int),
+				Attr:  t["attr"].(string),
+				Cost:  t["cost"].(int),
+				Name:  t["name"].(string),
+				Power: t["power"].(int),
 			}
 		}
 		opponentTeamCharacters[idx] = Character{

@@ -12,7 +12,7 @@ var characterIds = []string{"ENDO", "GOENJI", "GENDA", "SAKUMA"}
 var techniques = map[string]map[string]interface{}{
 	"GOD_HAND": {
 		"attr":  "DEFENCE",
-		"power": 30,
+		"power": 40,
 		"cost":  15,
 		"name":  "ゴッドハンド",
 	},

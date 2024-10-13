@@ -9,12 +9,12 @@ import (
 func main() {
 	match := match.InitMatch()
 	for {
-		cn, tn, isEnd, err := match.Proceed()
+		display, isEnd, err := match.Proceed()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
-		fmt.Println(cn + "「" + tn + "!!」")
+		display.Print()
 		if isEnd {
 			return
 		}
