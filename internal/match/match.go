@@ -1,10 +1,18 @@
 package match
 
-import "github.com/kikudesuyo/gopher-eleven/internal/team"
+import (
+	"errors"
+
+	"github.com/kikudesuyo/gopher-eleven/internal/team"
+)
 
 type Turn struct {
 	count       int
 	offenceTeam *team.Team
+}
+
+func (t *Turn) Inc() {
+	t.count++
 }
 
 type Period string
@@ -32,4 +40,31 @@ func InitMatch() Match {
 		opponentTeam: opponentTeam,
 	}
 	return match
+}
+
+func (m *Match) Proceed() (string, string, bool, error) {
+	offenceTeam := m.turn.offenceTeam
+	cn, tn := offenceTeam.Characters[0].Perform()
+	m.turn.Inc()
+
+	switch m.turn.offenceTeam.Name {
+	case m.playerTeam.Name:
+		m.turn.offenceTeam = &m.opponentTeam
+	case m.opponentTeam.Name:
+		m.turn.offenceTeam = &m.playerTeam
+	default:
+		return "", "", true, errors.New("invalid team name")
+	}
+
+	// switch m.turn.offenceTeam {
+	// case &m.playerTeam:
+	// 	m.turn.offenceTeam = &m.opponentTeam
+	// case &m.opponentTeam:
+	// 	m.turn.offenceTeam = &m.playerTeam
+	// default:
+	// 	return "", "", errors.New("invalid team")
+	// }
+
+	isEnd := m.turn.count == 3
+	return cn, tn, isEnd, nil
 }

@@ -2,23 +2,27 @@ package team
 
 import (
 	"github.com/kikudesuyo/gopher-eleven/internal/character"
+	"github.com/kikudesuyo/gopher-eleven/internal/db"
 )
 
 type Team struct {
-	characters []character.Character
+	Characters []character.Character
+	Name       string
 	point      int
 }
 
 func GetPlayerTeam() Team {
 	return Team{
-		characters: character.GetPlayerTeamCharacters(),
+		Characters: character.GetPlayerTeamCharacters(),
+		Name:       db.GetPlayerTeamName(),
 		point:      0,
 	}
 }
 
 func GetOpponentTeam() Team {
 	return Team{
-		characters: character.GetOpponentTeamCharacters(),
+		Characters: character.GetOpponentTeamCharacters(),
+		Name:       db.GetOpponentTeamName(),
 		point:      0,
 	}
 }

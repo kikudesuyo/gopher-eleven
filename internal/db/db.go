@@ -46,8 +46,16 @@ func GetPlayerTeamCharacterIds() []string {
 	return []string{"ENDO", "GOENJI"}
 }
 
+func GetPlayerTeamName() string {
+	return "Gopher Eleven"
+}
+
 func GetOpponentTeamCharacterIds() []string {
 	return []string{"GENDA", "SAKUMA"}
+}
+
+func GetOpponentTeamName() string {
+	return "帝国学園"
 }
 
 func GetCharacter(id string) map[string]interface{} {

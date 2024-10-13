@@ -1,14 +1,22 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/kikudesuyo/gopher-eleven/internal/match"
 )
 
 func main() {
 	match := match.InitMatch()
-	for i := 0; i < 3; i++ {
-		offenceTeam := match.playerTeam
-		defenceTeam := match.opponentTeam
-		offencePower = offenceTeam.character
+	for {
+		cn, tn, isEnd, err := match.Proceed()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		fmt.Println(cn + "「" + tn + "!!」")
+		if isEnd {
+			return
+		}
 	}
 }

@@ -17,6 +17,12 @@ type Character struct {
 	Tp         int
 }
 
+func (c *Character) Perform() (string, string) {
+	idx := 0
+	c.Tp -= c.Techniques[idx].cost
+	return c.Name, c.Techniques[idx].name
+}
+
 func GetPlayerTeamCharacters() []Character {
 	ptids := db.GetPlayerTeamCharacterIds()
 	playerTeamCharacters := make([]Character, 2)
