@@ -1,4 +1,4 @@
-package internal
+package db
 
 var characters = map[string]map[string]interface{}{
 	"ENDO":   {"name": "円堂", "techniques": []string{"GOD_HAND", "BAKURETSU_PUNCH"}, "tp": 100},

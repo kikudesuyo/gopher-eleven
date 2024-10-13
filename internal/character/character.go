@@ -1,6 +1,8 @@
 package character
 
-import "github.com/kikudesuyo/gopher-eleven/internal"
+import (
+	"github.com/kikudesuyo/gopher-eleven/internal/db"
+)
 
 type Technique struct {
 	attr  string
@@ -16,16 +18,16 @@ type Character struct {
 }
 
 func GetPlayerTeamCharacters() []Character {
-	ptids := internal.GetPlayerTeamCharacterIds()
+	ptids := db.GetPlayerTeamCharacterIds()
 	playerTeamCharacters := make([]Character, 2)
 
 	for idx, id := range ptids {
-		character := internal.GetCharacter(id)
+		character := db.GetCharacter(id)
 		ids := character["techniques"].([]string)
 		techniques := make([]Technique, len(ids))
 
 		for idx, id := range ids {
-			t := internal.GetTechniques(id)
+			t := db.GetTechniques(id)
 			techniques[idx] = Technique{
 				attr:  t["attr"].(string),
 				cost:  t["cost"].(int),
@@ -43,14 +45,14 @@ func GetPlayerTeamCharacters() []Character {
 }
 
 func GetOpponentTeamCharacters() []Character {
-	opids := internal.GetOpponentTeamCharacterIds()
+	opids := db.GetOpponentTeamCharacterIds()
 	opponentTeamCharacters := make([]Character, 2)
 	for idx, id := range opids {
-		character := internal.GetCharacter(id)
+		character := db.GetCharacter(id)
 		ids := character["techniques"].([]string)
 		techniques := make([]Technique, len(ids))
 		for idx, id := range ids {
-			t := internal.GetTechniques(id)
+			t := db.GetTechniques(id)
 			techniques[idx] = Technique{
 				attr:  t["attr"].(string),
 				cost:  t["cost"].(int),
