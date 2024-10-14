@@ -3,6 +3,7 @@ package match
 import (
 	"strconv"
 
+	"github.com/kikudesuyo/gopher-eleven/internal/character"
 	"github.com/kikudesuyo/gopher-eleven/internal/display"
 	"github.com/kikudesuyo/gopher-eleven/internal/team"
 )
@@ -44,16 +45,23 @@ func InitMatch() Match {
 	return match
 }
 
-func (m *Match) appendTurnResultTexts(texts []string) []string {
+func (m *Match) performTechnique(texts []string) (character.Character, character.Technique, character.Character, character.Technique, []string) {
 	offenceCharacter := m.turn.offenceTeam.Characters[1]
 	offenceTechnique := offenceCharacter.Perform()
 	defenceCharacter := m.turn.defenceTeam.Characters[0]
 	defenceTechnique := defenceCharacter.Perform()
-	if isPowerGreater(offenceTechnique.Power, defenceTechnique.Power) {
+	texts = append(texts, offenceCharacter.Name+"「"+offenceTechnique.Name+"!!」",
+		defenceCharacter.Name+"「"+defenceTechnique.Name+"!!」",
+	)
+	return offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts
+}
+
+func (m *Match) appendTurnResultTexts(texts []string, offencePower, defencePower int, offenceCharacterName, defenceCharacterName string) []string {
+	if isPowerGreater(offencePower, defencePower) {
 		m.turn.offenceTeam.Inc()
-		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacter.Name+"のシュートが炸裂!!」")
+		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacterName+"のシュートが炸裂!!」")
 	} else {
-		texts = append(texts, "角間「キーパーの"+defenceCharacter.Name+"がしっかりキャッチ!」")
+		texts = append(texts, "角間「キーパーの"+defenceCharacterName+"がしっかりキャッチ!」")
 	}
 	texts = append(texts, "------------------------")
 	return texts
@@ -74,12 +82,19 @@ func (m *Match) appendEndPeriodText(texts []string) []string {
 
 func (m *Match) Proceed() (display.Display, bool, error) {
 	var texts []string
-	texts = m.appendTurnResultTexts(texts)
+	texts = append(texts, "第"+strconv.Itoa(m.turn.count)+"ターン")
+	offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts := m.performTechnique(texts)
+	texts = m.appendTurnResultTexts(
+		texts,
+		offenceTechnique.Power,
+		defenceTechnique.Power,
+		offenceCharacter.Name,
+		defenceCharacter.Name,
+	)
 	isEnd := m.turn.count == 4
 	if isEnd {
 		texts = m.appendEndPeriodText(texts)
 	}
-
 	m.turn.offenceTeam, m.turn.defenceTeam = m.turn.defenceTeam, m.turn.offenceTeam
 	m.turn.Inc()
 
