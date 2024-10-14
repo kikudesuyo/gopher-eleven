@@ -17,14 +17,7 @@ const (
 
 func (p *Period) proceed(texts []string) ([]string, bool) {
 	texts = append(texts, "第"+strconv.Itoa(p.turn.count)+"ターン")
-	offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts := p.turn.performTechnique(texts)
-	texts = p.turn.appendTurnResultTexts(
-		texts,
-		offenceTechnique.Power,
-		defenceTechnique.Power,
-		offenceCharacter.Name,
-		defenceCharacter.Name,
-	)
+	texts = p.turn.performTechnique(texts)
 	isEnd := p.turn.isEnd()
 	p.turn.swapOffenceAndDefence()
 	p.turn.incCount()

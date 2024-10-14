@@ -1,7 +1,6 @@
 package match
 
 import (
-	"github.com/kikudesuyo/gopher-eleven/internal/character"
 	"github.com/kikudesuyo/gopher-eleven/internal/team"
 )
 
@@ -23,21 +22,17 @@ func (t *Turn) isEnd() bool {
 	return t.count == 4
 }
 
-func (t *Turn) performTechnique(texts []string) (character.Character, character.Technique, character.Character, character.Technique, []string) {
+func (t *Turn) performTechnique(texts []string) []string {
 	offenceCharacter := t.offenceTeam.Characters[1]
 	offenceTechnique, offenceText := offenceCharacter.Perform()
 	defenceCharacter := t.defenceTeam.Characters[0]
 	defenceTechnique, defenceText := defenceCharacter.Perform()
 	texts = append(texts, offenceText, defenceText)
-	return offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts
-}
-
-func (t *Turn) appendTurnResultTexts(texts []string, offencePower, defencePower int, offenceCharacterName, defenceCharacterName string) []string {
-	if isPowerGreater(offencePower, defencePower) {
+	if isPowerGreater(offenceTechnique.Power, defenceTechnique.Power) {
 		t.offenceTeam.IncScore()
-		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacterName+"のシュートが炸裂!!」")
+		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacter.Name+"のシュートが炸裂!!」")
 	} else {
-		texts = append(texts, "角間「キーパーの"+defenceCharacterName+"がしっかりキャッチ!」")
+		texts = append(texts, "角間「キーパーの"+defenceCharacter.Name+"がしっかりキャッチ!」")
 	}
 	texts = append(texts, "------------------------")
 	return texts
