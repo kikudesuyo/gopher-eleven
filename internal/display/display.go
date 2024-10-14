@@ -20,7 +20,6 @@ func (d Display) Print() {
 			time.Sleep(50 * time.Millisecond)
 		}
 		fmt.Println()
-		// fmt.Println(text)
 		time.Sleep(1000 * time.Millisecond)
 	}
 	time.Sleep(1200 * time.Millisecond)
