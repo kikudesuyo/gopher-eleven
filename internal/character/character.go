@@ -19,11 +19,10 @@ type Character struct {
 	Tp         int
 }
 
-func (c *Character) Perform() Technique {
-
+func (c *Character) Perform() (Technique, string) {
 	idx := rand.Intn(len(c.Techniques))
 	c.Tp -= c.Techniques[idx].Cost
-	return c.Techniques[idx]
+	return c.Techniques[idx], c.Name + "「" + c.Techniques[idx].Name + "!!」"
 }
 
 func GetPlayerTeamCharacters() []Character {

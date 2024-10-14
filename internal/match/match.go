@@ -14,8 +14,16 @@ type Turn struct {
 	defenceTeam *team.Team
 }
 
-func (t *Turn) Inc() {
+func (t *Turn) incCount() {
 	t.count++
+}
+
+func (t *Turn) swapOffenceAndDefence() {
+	t.offenceTeam, t.defenceTeam = t.defenceTeam, t.offenceTeam
+}
+
+func (t *Turn) isEnd() bool {
+	return t.count == 4
 }
 
 type Period string
@@ -47,18 +55,16 @@ func InitMatch() Match {
 
 func (m *Match) performTechnique(texts []string) (character.Character, character.Technique, character.Character, character.Technique, []string) {
 	offenceCharacter := m.turn.offenceTeam.Characters[1]
-	offenceTechnique := offenceCharacter.Perform()
+	offenceTechnique, offenceText := offenceCharacter.Perform()
 	defenceCharacter := m.turn.defenceTeam.Characters[0]
-	defenceTechnique := defenceCharacter.Perform()
-	texts = append(texts, offenceCharacter.Name+"「"+offenceTechnique.Name+"!!」",
-		defenceCharacter.Name+"「"+defenceTechnique.Name+"!!」",
-	)
+	defenceTechnique, defenceText := defenceCharacter.Perform()
+	texts = append(texts, offenceText, defenceText)
 	return offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts
 }
 
 func (m *Match) appendTurnResultTexts(texts []string, offencePower, defencePower int, offenceCharacterName, defenceCharacterName string) []string {
 	if isPowerGreater(offencePower, defencePower) {
-		m.turn.offenceTeam.Inc()
+		m.turn.offenceTeam.IncScore()
 		texts = append(texts, "角間「決まったぁぁーー! "+offenceCharacterName+"のシュートが炸裂!!」")
 	} else {
 		texts = append(texts, "角間「キーパーの"+defenceCharacterName+"がしっかりキャッチ!」")
@@ -84,6 +90,7 @@ func (m *Match) Proceed() (display.Display, bool, error) {
 	var texts []string
 	texts = append(texts, "第"+strconv.Itoa(m.turn.count)+"ターン")
 	offenceCharacter, offenceTechnique, defenceCharacter, defenceTechnique, texts := m.performTechnique(texts)
+
 	texts = m.appendTurnResultTexts(
 		texts,
 		offenceTechnique.Power,
@@ -91,12 +98,13 @@ func (m *Match) Proceed() (display.Display, bool, error) {
 		offenceCharacter.Name,
 		defenceCharacter.Name,
 	)
-	isEnd := m.turn.count == 4
+
+	isEnd := m.turn.isEnd()
 	if isEnd {
 		texts = m.appendEndPeriodText(texts)
 	}
-	m.turn.offenceTeam, m.turn.defenceTeam = m.turn.defenceTeam, m.turn.offenceTeam
-	m.turn.Inc()
+	m.turn.swapOffenceAndDefence()
+	m.turn.incCount()
 
 	disp := display.NewDisplay(texts...)
 	return disp, isEnd, nil

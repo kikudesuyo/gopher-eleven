@@ -12,7 +12,7 @@ func Test_Inc(t *testing.T) {
 		Name:       "",
 		Score:      2,
 	}
-	got := team.Inc()
+	got := team.IncScore()
 	want := 3
 	assert.Equal(t, want, got)
 }

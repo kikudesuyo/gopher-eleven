@@ -27,7 +27,7 @@ func GetOpponentTeam() Team {
 	}
 }
 
-func (t *Team) Inc() int {
+func (t *Team) IncScore() int {
 	t.Score++
 	return t.Score
 }
